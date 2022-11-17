@@ -7,6 +7,7 @@ read -r -d '' usage <<-'EOF'
 
      positional arguments:\n
        -e the developer's email\n
+       -n the developer's github username\n
        -p the name to give the project.\n
        -d a one-sentence description of the project. (in quotes!)\n
        -k a few keywords about the project.          (in quotes!)\n
@@ -23,10 +24,13 @@ EOF
 topdir=$(git rev-parse --show-toplevel)
 
 # gather arguments with getopts.
-while getopts ":e:p:d:k:h:" opt; do
+while getopts ":e:n:p:d:k:h:" opt; do
   case ${opt} in
     e)
-      dev=$OPTARG
+      email=$OPTARG
+      ;;
+    n)
+      username=$OPTARG
       ;;
     p)
       name=$OPTARG
@@ -65,13 +69,22 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 
     echo " - Overwriting setup.py"
 
-    if [ ! -z "$dev" ]; then
-	sed -e "s/PROJ_DEV/${dev}/g" setup.py > setup.py.bak
-	mv setup.py.bak setup.py
+    if [ ! -z "$email" ]; then
+	    sed -e "s/PROJ_EMAIL/${email}/g" setup.py > setup.py.bak
+	    mv setup.py.bak setup.py
     else
-	echo "Needs a developer email address."
-	exit 1
+	    echo "Needs a developer email address."
+	    exit 1
     fi
+
+    if [ ! -z "$username" ]; then
+      sed -e "s/PROJECT_USER/${username}/g" setup.py > setup.py
+      mv setup.py setup.py
+    else
+      echo "Needs a github username."
+      exit 1
+    fi
+
 
     if [ ! -z "$name" ]; then
 	sed -e "s/PROJ_NAME/${name}/g" setup.py > setup.py.bak
