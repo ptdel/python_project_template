@@ -32,11 +32,7 @@ jobs:
     - name: Type Checking with MyPy
       run: |
         pip install mypy
-        mypy \
-          --ignore-missing-imports \
-          --install-types          \
-          --explicit-package-bases \
-          .
+        mypy .
     - name: Test with Tox
       run: |
         pip install tox pytest pytest-cov pytest-runner
