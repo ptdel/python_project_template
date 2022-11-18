@@ -16,7 +16,7 @@ from pathlib import Path
 if len(sys.argv) > 1:
     prop = sys.argv[1]
 else:
-    prop = ""
+    prop = None
 
 # Setting the path to the base level of the repository.
 base_dir = Path(__file__).absolute().parent.parent
@@ -30,6 +30,6 @@ with mock.patch.object(setuptools, "setup") as setup_:
 args, info = setup_.call_args
 
 if prop is not None:
-    print(json.dumps(info[prop]))
+    print(json.dumps(info[prop], sort_keys=True, indent=4, separators=(",", ": ")))
 else:
-    print(json.dumps(info))
+    print(json.dumps(info, sort_keys=True, indent=4, separators=(",", ":")))
