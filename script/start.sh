@@ -78,8 +78,8 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     fi
 
     if [ ! -z "$username" ]; then
-      sed -e "s/PROJECT_USER/${username}/g" setup.py > setup.py
-      mv setup.py setup.py
+      sed -e "s/PROJECT_USER/${username}/g" setup.py > setup.py.bak
+      mv setup.py.bak setup.py
     else
       echo "Needs a github username."
       exit 1
